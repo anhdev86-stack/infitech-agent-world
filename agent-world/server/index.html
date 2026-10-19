@@ -304,7 +304,7 @@ body.widget .top,body.widget .rail,body.widget .panel,body.widget .legend,body.w
     <div id="pbody"></div>
     <div class="chat" id="chat" hidden>
       <div class="chat-head">
-        <h3>Chat với Claude</h3>
+        <h3>Giao việc</h3>
         <label for="c-sess" class="tagline" style="letter-spacing:.12em">Phiên Claude Code</label>
         <select id="c-sess"></select>
       </div>
@@ -317,11 +317,11 @@ body.widget .top,body.widget .rail,body.widget .panel,body.widget .legend,body.w
           <button type="button" data-q="Tiếp tục.">Tiếp tục</button>
         </div>
         <label for="c-text" class="tagline" style="letter-spacing:.12em" hidden>Tin nhắn</label>
-        <textarea id="c-text" rows="3" placeholder="Soạn tin cho Claude… (⌘/Ctrl + Enter để gửi)"></textarea>
+        <textarea id="c-text" rows="3" placeholder="Giao việc cho đội agent… (⌘/Ctrl + Enter)"></textarea>
         <div class="chat-actions">
           <small id="c-hint">Tin được chép vào bộ nhớ tạm. Mở Claude Code rồi dán (⌘V) và Enter.</small>
           <button type="button" class="btn" id="c-copy">Chép</button>
-          <button type="submit" class="btn primary" id="c-send">Gửi sang Claude</button>
+          <button type="submit" class="btn primary" id="c-send">Giao việc</button>
         </div>
       </form>
     </div>
@@ -2017,7 +2017,7 @@ function renderStats() {
 const CHAT = { sel: 'auto', key: '', pending: [] };
 try { const st = JSON.parse(localStorage.getItem('aw-chat') || '{}'); if (st.sel) CHAT.sel = st.sel; if (st.draft) $('#c-text').value = st.draft; } catch (e) {}
 function saveChat() { try { localStorage.setItem('aw-chat', JSON.stringify({ sel: CHAT.sel, draft: $('#c-text').value })); } catch (e) {} }
-$('#c-hint').textContent = APP ? 'Bấm Gửi: tin được chép và Claude bật lên. Nhấn ⌘V rồi Enter.' : 'Tin được chép vào bộ nhớ tạm. Mở Claude Code rồi dán (⌘V / Ctrl+V) và Enter.';
+$('#c-hint').textContent = APP ? 'Bấm Giao việc: tin được chép và Claude bật lên. Nhấn ⌘V rồi Enter.' : 'Tin được chép vào bộ nhớ tạm. Mở Claude Code rồi dán (⌘V / Ctrl+V) và Enter.';
 function md(text) {
   return String(text).split('```').map((p, i) => {
     if (i % 2) { const nl = p.indexOf('\n'); return `<pre><code>${esc((nl >= 0 ? p.slice(nl + 1) : p).replace(/\n$/, ''))}</code></pre>`; }
@@ -2076,7 +2076,7 @@ function renderChat(force) {
   });
   if (t) html.push(`<div class="typing"><i></i>${t.waiting ? 'Claude đang chờ bạn duyệt trong Claude Code' : `${S.agents[t.target].def.name} đang làm: ${esc(liveStatus(S.agents[t.target], t))}`}</div>`);
   CHAT.pending.forEach(p => html.push(`<div class="bub user pending" title="Đã chép, chờ bạn dán vào Claude Code">${esc(p.text)}</div>`));
-  log.innerHTML = html.length ? html.join('') : `<div class="chat-empty"><img src="${EMBLEM}" alt=""><b>Soạn tin cho Claude ngay tại đây</b><span>Bấm Gửi, tin được chép sang Claude Code. Câu trả lời của Claude và từng bước robot làm sẽ hiện ở khung này.</span></div>`;
+  log.innerHTML = html.length ? html.join('') : `<div class="chat-empty"><img src="${EMBLEM}" alt=""><b>Giao việc cho đội agent ngay tại đây</b><span>Bấm Giao việc, nội dung được chép sang Claude Code. Câu trả lời của Claude và từng bước robot làm sẽ hiện ở khung này.</span></div>`;
   if (nearBottom || force) log.scrollTop = log.scrollHeight;
 }
 async function copyText(text) {
