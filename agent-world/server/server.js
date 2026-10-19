@@ -52,6 +52,30 @@ function compact(d) {
   return rec;
 }
 
+// Claude's final reply for a turn, read from the session transcript Claude Code already keeps on disk.
+function lastReply(file) {
+  try {
+    const root = path.join(os.homedir(), '.claude');
+    const real = fs.realpathSync(file);
+    if (!real.startsWith(root + path.sep) || !real.endsWith('.jsonl')) return '';
+    const st = fs.statSync(real), len = Math.min(st.size, 3e6), buf = Buffer.alloc(len);
+    const fd = fs.openSync(real, 'r'); fs.readSync(fd, buf, 0, len, st.size - len); fs.closeSync(fd);
+    const lines = buf.toString('utf8').split('\n'), parts = [];
+    for (let i = lines.length - 1; i >= 0; i--) {
+      let d; try { d = JSON.parse(lines[i]); } catch (e) { continue; }
+      const c = d.message && d.message.content;
+      if (d.type === 'user' && !d.isSidechain && (typeof c === 'string' || (Array.isArray(c) && c.some(x => x.type === 'text')))) break;
+      if (d.type === 'assistant' && !d.isSidechain && Array.isArray(c)) {
+        // Keep only the closing message: stop at the last tool call once some text was collected.
+        if (parts.length && c.some(x => x.type === 'tool_use')) break;
+        const t = c.filter(x => x.type === 'text').map(x => x.text).join('\n').trim();
+        if (t) parts.unshift(t);
+      }
+    }
+    return parts.join('\n\n').slice(0, 8000);
+  } catch (e) { return ''; }
+}
+
 function append(rec) {
   try {
     if (fs.existsSync(EV) && fs.statSync(EV).size > MAX_BYTES) {
@@ -96,7 +120,16 @@ const server = http.createServer((req, res) => {
     req.on('data', c => { size += c.length; if (size <= 30e6) chunks.push(c); });
     req.on('end', () => {
       res.writeHead(204); res.end();
-      try { const rec = compact(JSON.parse(Buffer.concat(chunks).toString('utf8'))); if (!duplicate(rec)) append(rec); } catch (e) { /* ignore bad input */ }
+      try {
+        const d = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+        const rec = compact(d);
+        if (duplicate(rec)) return;
+        if (rec.ev === 'Stop' && d.transcript_path) {
+          // Give Claude Code a moment to flush the final message before reading it.
+          return setTimeout(() => { rec.reply = lastReply(d.transcript_path); append(rec); }, 400);
+        }
+        append(rec);
+      } catch (e) { /* ignore bad input */ }
     });
     return;
   }
