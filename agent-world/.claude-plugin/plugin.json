@@ -1,6 +1,6 @@
 {
   "name": "agent-world",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "INFI TECH Agent World: a live 3D office where six robots act out what Claude Code is doing (planning, research, code, tests, review). Runs locally at http://127.0.0.1:8765.",
   "author": { "name": "INFI TECH" },
   "keywords": ["visualization", "3d", "dashboard", "hooks", "monitoring"]

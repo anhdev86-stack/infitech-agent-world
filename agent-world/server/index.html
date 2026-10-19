@@ -330,12 +330,12 @@ body.widget .top,body.widget .rail,body.widget .panel,body.widget .legend,body.w
 
 <div class="modal" id="modal" hidden>
   <form id="f-new" autocomplete="off">
-    <h3>Giao task mới cho Orion</h3>
-    <p>Orion phân loại, rồi chuyển qua lập kế hoạch, nghiên cứu, code, kiểm thử và review.</p>
+    <h3>Giao task mới cho AnhDev 86</h3>
+    <p>AnhDev 86 phân loại, rồi chuyển qua lập kế hoạch, nghiên cứu, code, kiểm thử và review.</p>
     <label for="f-title">Tiêu đề<input id="f-title" required maxlength="90" placeholder="VD: Thêm đăng nhập 2 lớp bằng mã OTP"></label>
     <label for="f-desc">Mô tả<textarea id="f-desc" maxlength="300" placeholder="Thế nào thì coi là xong?"></textarea></label>
     <label for="f-prio">Mức ưu tiên<select id="f-prio"><option value="HIGH">Cao</option><option value="MED" selected>Vừa</option><option value="LOW">Thấp</option></select></label>
-    <div class="acts"><button type="button" class="btn" id="f-cancel">Huỷ</button><button type="submit" class="btn primary">Gửi cho Orion</button></div>
+    <div class="acts"><button type="button" class="btn" id="f-cancel">Huỷ</button><button type="submit" class="btn primary">Gửi cho AnhDev 86</button></div>
   </form>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -361,12 +361,12 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------------- data ---------------- */
 const AGENTS = [
-  { id: 'orion', name: 'Orion', role: 'Điều phối', hex: '#f2c35b', zone: 'hub' },
-  { id: 'piper', name: 'Piper', role: 'Lập kế hoạch', hex: '#7cb8ff', zone: 'research' },
-  { id: 'iris', name: 'Iris', role: 'Nghiên cứu', hex: '#b993ff', zone: 'research' },
-  { id: 'kai', name: 'Kai', role: 'Lập trình', hex: '#52d6b0', zone: 'dev' },
-  { id: 'quinn', name: 'Quinn', role: 'Kiểm thử', hex: '#ff9a6b', zone: 'dev' },
-  { id: 'rex', name: 'Rex', role: 'Review code', hex: '#ff6f86', zone: 'dev' },
+  { id: 'orion', name: 'AnhDev 86', role: 'Điều phối', hex: '#f2c35b', zone: 'hub' },
+  { id: 'piper', name: 'Lan', role: 'Lập kế hoạch', hex: '#7cb8ff', zone: 'research' },
+  { id: 'iris', name: 'Hà', role: 'Nghiên cứu', hex: '#b993ff', zone: 'research' },
+  { id: 'kai', name: 'Tuấn', role: 'Lập trình', hex: '#52d6b0', zone: 'dev' },
+  { id: 'quinn', name: 'Linh', role: 'Kiểm thử', hex: '#ff9a6b', zone: 'dev' },
+  { id: 'rex', name: 'Khoa', role: 'Review code', hex: '#ff6f86', zone: 'dev' },
 ];
 const STAGES = [
   { key: 'intake', label: 'Tiếp nhận', short: 'Nhận', agent: 'orion', dur: 3.5, verb: 'Phân loại' },
@@ -795,7 +795,7 @@ function addTask(tpl) {
   t.cube = makeCube(t);
   S.tasks.push(t);
   queuePush(S.agents.orion, t);
-  log(`Orion nhận task “${short(t.title)}” (ưu tiên ${PL[t.priority]})`, 'orion', t);
+  log(`AnhDev 86 nhận task “${short(t.title)}” (ưu tiên ${PL[t.priority]})`, 'orion', t);
   return t;
 }
 function queuePush(b, t) {
@@ -832,7 +832,7 @@ function startWork(a, t) {
   a.lastActive = performance.now(); a.task = t; a.state = 'working'; a.lookAt = null; t.mode = 'work'; t.holder = a.def.id; t.touched = performance.now();
   const st = STAGES[t.stage];
   if (t.status === 'pending') t.status = 'active';
-  if (st.key === 'impl' && !t.live) { t.build++; if (t.build > 1) log(`Kai bắt đầu build #${t.build} cho “${short(t.title)}”`, 'kai', t); }
+  if (st.key === 'impl' && !t.live) { t.build++; if (t.build > 1) log(`Tuấn bắt đầu build #${t.build} cho “${short(t.title)}”`, 'kai', t); }
   a.jitter = rand(.85, 1.2) * (t.priority === 'HIGH' ? .9 : t.priority === 'LOW' ? 1.1 : 1);
 }
 function applyProgress(t) {
@@ -846,26 +846,26 @@ function finishStage(a, t) {
   a.task = null; a.state = 'idle'; a.stagesDone++; t.stageProgress = 0; t.stageDone[t.stage] = true;
   let next = t.stage + 1;
   switch (st.key) {
-    case 'intake': log(`Orion phân loại “${sh}” ưu tiên ${PL[t.priority]} và chuyển Piper lập kế hoạch`, 'orion', t); break;
-    case 'planning': t.cardsShown = t.cards.length; log(`Piper chia “${sh}” thành ${t.cards.length} task card`, 'piper', t); break;
-    case 'research': t.findingsShown = t.findings.length; log(`Iris đính kèm ${t.findings.length} kết quả nghiên cứu vào “${sh}”`, 'iris', t); break;
-    case 'impl': t.cards.forEach(c => c.done = true); log(`Kai đẩy build #${t.build} của “${sh}”, chuyển Quinn kiểm thử`, 'kai', t); break;
+    case 'intake': log(`AnhDev 86 phân loại “${sh}” ưu tiên ${PL[t.priority]} và chuyển Lan lập kế hoạch`, 'orion', t); break;
+    case 'planning': t.cardsShown = t.cards.length; log(`Lan chia “${sh}” thành ${t.cards.length} task card`, 'piper', t); break;
+    case 'research': t.findingsShown = t.findings.length; log(`Hà đính kèm ${t.findings.length} kết quả nghiên cứu vào “${sh}”`, 'iris', t); break;
+    case 'impl': t.cards.forEach(c => c.done = true); log(`Tuấn đẩy build #${t.build} của “${sh}”, chuyển Linh kiểm thử`, 'kai', t); break;
     case 'testing':
       if (t.reworked < 2 && Math.random() < S.settings.rework) {
         const n = 1 + Math.floor(Math.random() * 3);
-        log(`Quinn: ${n} bài kiểm tra lỗi ở build #${t.build}, trả lại cho Kai`, 'quinn', t); setMood(a, 'error', 1600);
+        log(`Linh: ${n} bài kiểm tra lỗi ở build #${t.build}, trả lại cho Tuấn`, 'quinn', t); setMood(a, 'error', 1600);
         next = rework(t);
-      } else log(`Quinn: build #${t.build} qua hết kiểm thử, chuyển Rex review`, 'quinn', t);
+      } else log(`Linh: build #${t.build} qua hết kiểm thử, chuyển Khoa review`, 'quinn', t);
       break;
     case 'review':
       if (t.reworked < 2 && Math.random() < S.settings.rework * .7) {
-        log(`Rex yêu cầu sửa “${sh}”, trả lại cho Kai`, 'rex', t); setMood(a, 'error', 1400);
+        log(`Khoa yêu cầu sửa “${sh}”, trả lại cho Tuấn`, 'rex', t); setMood(a, 'error', 1400);
         next = rework(t);
-      } else log(`Rex duyệt phần triển khai của “${sh}”`, 'rex', t);
+      } else log(`Khoa duyệt phần triển khai của “${sh}”`, 'rex', t);
       break;
     case 'done':
       t.status = 'completed'; t.mode = 'done'; t.holder = null; S.completed++;
-      log(`Orion đánh dấu “${sh}” hoàn thành sau ${t.iterations} vòng`, 'orion', t);
+      log(`AnhDev 86 đánh dấu “${sh}” hoàn thành sau ${t.iterations} vòng`, 'orion', t);
       blip(880, .12); setTimeout(() => blip(1320, .16), 110); burst(V(0, 2.6, -1.5), '#f2c35b', 40); setMood(a, 'happy', 2200);
       return;
   }
@@ -1093,8 +1093,8 @@ function ingest(ev, instant) {
       }
       break;
     }
-    case 'Notification': if (t) { t.waiting = oneLine(ev.msg || 'Claude cần bạn trả lời', 80); log(`Orion: ${t.waiting}`, 'orion', t); if (!instant) notifyUser('Claude đang chờ bạn', `${sess.project}: ${t.waiting}`); } break;
-    case 'SubagentStop': if (t) log('Orion: một subagent đã xong việc', 'orion', t); break;
+    case 'Notification': if (t) { t.waiting = oneLine(ev.msg || 'Claude cần bạn trả lời', 80); log(`AnhDev 86: ${t.waiting}`, 'orion', t); if (!instant) notifyUser('Claude đang chờ bạn', `${sess.project}: ${t.waiting}`); } break;
+    case 'SubagentStop': if (t) log('AnhDev 86: một subagent đã xong việc', 'orion', t); break;
     case 'Stop': if (t) { if (!instant) notifyUser('Claude đã xong việc', `${sess.project}: ${oneLine(t.title, 90)}`); finishLive(t, instant); } break;
     case 'SessionEnd': if (t) finishLive(t, true); if (sess.room != null) releaseRoom(ROOMS[sess.room]); delete LIVE.sessions[ev.sid]; break;
   }
@@ -1130,12 +1130,12 @@ function liveWork(a, t, dt) {
   a.task = null; a.state = 'idle';
   if (a.def.id === 'rex') {
     const n = t.cards.length, bad = t.cards.filter(c => c.state === 'fail').length;
-    log(`Rex xem lại ${n} hành động${bad ? `, ${bad} bị lỗi` : ''} của “${short(t.title)}”`, 'rex', t);
+    log(`Khoa xem lại ${n} hành động${bad ? `, ${bad} bị lỗi` : ''} của “${short(t.title)}”`, 'rex', t);
     setTarget(t, 'orion', false); t.stage = SI.done;
     liveHandoff(a, t);
   } else {
     completeLive(t); setMood(a, 'happy', 2200); burst(V(0, 2.6, -1.5), t.hue || '#f2c35b', 40);
-    log(`Orion chốt “${short(t.title)}”: xong lượt, chờ yêu cầu tiếp theo`, 'orion', t);
+    log(`AnhDev 86 chốt “${short(t.title)}”: xong lượt, chờ yêu cầu tiếp theo`, 'orion', t);
     blip(880, .12); setTimeout(() => blip(1320, .16), 110); trimDone();
   }
 }
@@ -1426,7 +1426,7 @@ function focusTask() {
 function renderOverview() {
   const t = focusTask();
   if (!t && LIVE.on) return `<h3>Đang chờ Claude Code</h3><p class="desc" style="margin-top:6px">Gửi một yêu cầu trong bất kỳ phiên Claude Code nào trên máy này, các robot sẽ làm theo đúng những gì Claude đang làm.</p>`;
-  if (!t) return `<h3>Chưa có task nào</h3><p class="desc" style="margin-top:6px">Bấm <b>Chạy demo</b> để xem 3 task chạy qua cả đội, hoặc <b>Task mới</b> để giao việc của bạn cho Orion.</p>`;
+  if (!t) return `<h3>Chưa có task nào</h3><p class="desc" style="margin-top:6px">Bấm <b>Chạy demo</b> để xem 3 task chạy qua cả đội, hoặc <b>Task mới</b> để giao việc của bạn cho AnhDev 86.</p>`;
   const flow = STAGES.map((st, i) => {
     const done = t.status === 'completed' || t.stageDone[i] && i < t.stage || i < t.stage;
     const active = !done && t.status === 'active' && i === t.stage;
@@ -1436,8 +1436,8 @@ function renderOverview() {
     return `<li class="${cls}"><span class="st ${cls}">${done ? ICON_CHECK : ''}</span><span>${st.label}</span><span class="who">${a.def.name}${extra}</span></li>`;
   }).join('');
   const cl = t.live ? t.cards.slice(-14) : t.cards.slice(0, t.cardsShown);
-  const cards = cl.length ? `<ul class="checks">${cl.map(c => `<li class="${c.state === 'fail' ? 'fail' : c.done ? 'done' : t.live ? 'run' : ''}"><span class="bx">${c.state === 'fail' ? '✕' : c.done ? ICON_CHECK : ''}</span><span>${t.live ? `<b style="font-weight:500;color:${S.agents[c.agent].def.hex}">${S.agents[c.agent].def.name}</b> · ` : ''}${esc(c.text)}</span></li>`).join('')}</ul>` : `<p class="empty">${t.live ? 'Chưa có hành động nào.' : 'Task card sẽ hiện khi Piper lập kế hoạch.'}</p>`;
-  const finds = t.findingsShown ? `<ul class="finds">${t.findings.slice(0, t.findingsShown).map(f => `<li>${ICON_BULB}<span>${esc(f)}</span></li>`).join('')}</ul>` : `<p class="empty">${t.live ? 'Chưa sửa file nào.' : 'Iris chưa nghiên cứu task này.'}</p>`;
+  const cards = cl.length ? `<ul class="checks">${cl.map(c => `<li class="${c.state === 'fail' ? 'fail' : c.done ? 'done' : t.live ? 'run' : ''}"><span class="bx">${c.state === 'fail' ? '✕' : c.done ? ICON_CHECK : ''}</span><span>${t.live ? `<b style="font-weight:500;color:${S.agents[c.agent].def.hex}">${S.agents[c.agent].def.name}</b> · ` : ''}${esc(c.text)}</span></li>`).join('')}</ul>` : `<p class="empty">${t.live ? 'Chưa có hành động nào.' : 'Task card sẽ hiện khi Lan lập kế hoạch.'}</p>`;
+  const finds = t.findingsShown ? `<ul class="finds">${t.findings.slice(0, t.findingsShown).map(f => `<li>${ICON_BULB}<span>${esc(f)}</span></li>`).join('')}</ul>` : `<p class="empty">${t.live ? 'Chưa sửa file nào.' : 'Hà chưa nghiên cứu task này.'}</p>`;
   const tl = t.timeline.slice(0, 14).map(e => `<li><i style="background:${S.agents[e.agent]?.def.hex || 'var(--dim)'}"></i><span>${esc(e.text)}<time>${e.time}</time></span></li>`).join('');
   return `<button class="crumb" type="button" data-act="tasks">← Công việc</button>
   <div class="tid">${t.id} ${chip(t)} ${tagOf(t)}</div>
@@ -1472,7 +1472,7 @@ function renderAgents() {
       <dl class="kv"><dt>Hiện tại</dt><dd>${esc(a.status)}</dd><dt>Task</dt><dd>${cur ? esc(cur.id + ' · ' + cur.title) : '—'}</dd><dt>Hàng chờ</dt><dd>${a.queue.length ? a.queue.map(t => t.id).join(', ') : 'trống'}</dd><dt>Bước đã xong</dt><dd>${a.stagesDone}</dd></dl>
     </button>`;
   }).join('');
-  return `<h3>Agent · 6</h3><p class="desc" style="margin-top:4px">Orion điều phối, mỗi agent chuyên trách một bước. Bấm vào thẻ để camera bám theo robot đó.</p><h4>Đội</h4><div class="list">${rows}</div>`;
+  return `<h3>Agent · 6</h3><p class="desc" style="margin-top:4px">AnhDev 86 điều phối, mỗi agent chuyên trách một bước. Bấm vào thẻ để camera bám theo robot đó.</p><h4>Đội</h4><div class="list">${rows}</div>`;
 }
 function renderActivity() {
   const rows = S.log.slice(0, 80).map(e => `<li><i style="background:${S.agents[e.agent]?.def.hex || 'var(--dim)'}"></i><span>${esc(e.text)}<time>${e.time}${e.task ? ' · ' + e.task : ''}</time></span></li>`).join('');
@@ -1483,12 +1483,12 @@ function renderSettings() {
   return `<h3>Cài đặt</h3><h4>Khung cảnh</h4><div class="set">
   <label for="set-paths"><span>Đường bàn giao<small>Vệt chấm khi robot mang task đi giao</small></span><input type="checkbox" id="set-paths" ${s.paths ? 'checked' : ''}></label>
   <label for="set-labels"><span>Bảng tên<small>Tên và trạng thái trên đầu mỗi robot</small></span><input type="checkbox" id="set-labels" ${s.labels ? 'checked' : ''}></label>
-  <label for="set-autofeed"><span>Tự nạp task<small>Orion tự lấy task tiếp theo khi đội sắp hết việc</small></span><input type="checkbox" id="set-autofeed" ${s.autofeed ? 'checked' : ''}></label>
+  <label for="set-autofeed"><span>Tự nạp task<small>AnhDev 86 tự lấy task tiếp theo khi đội sắp hết việc</small></span><input type="checkbox" id="set-autofeed" ${s.autofeed ? 'checked' : ''}></label>
   <label for="set-director"><span>Camera tự động<small>Tự bám theo robot đang làm việc, như quay phim</small></span><input type="checkbox" id="set-director" ${s.director ? 'checked' : ''}></label>
   <label for="set-quality"><span>Chất lượng hình<small>Cao: phát sáng + sàn phản chiếu · Vừa: phát sáng · Thấp: nhẹ máy</small></span><select id="set-quality" style="background:var(--raise);border:1px solid var(--line);border-radius:6px;padding:4px 6px"><option value="cao" ${s.quality === 'cao' ? 'selected' : ''}>Cao</option><option value="vua" ${s.quality === 'vua' ? 'selected' : ''}>Vừa</option><option value="thap" ${s.quality === 'thap' ? 'selected' : ''}>Thấp</option></select></label>
   <label for="set-notify"><span>Thông báo<small>Báo khi Claude xong việc hoặc đang chờ bạn duyệt</small></span><input type="checkbox" id="set-notify" ${s.notify ? 'checked' : ''}></label>
   </div><h4>Mô phỏng</h4><div class="set">
-  <label for="set-rework"><span>Tỉ lệ làm lại · <b id="rw-v">${Math.round(s.rework * 100)}%</b><small>Khả năng Quinn đánh trượt build (Rex bằng 70% mức này)</small></span><input type="range" id="set-rework" min="0" max="0.6" step="0.05" value="${s.rework}"></label>
+  <label for="set-rework"><span>Tỉ lệ làm lại · <b id="rw-v">${Math.round(s.rework * 100)}%</b><small>Khả năng Linh đánh trượt build (Khoa bằng 70% mức này)</small></span><input type="range" id="set-rework" min="0" max="0.6" step="0.05" value="${s.rework}"></label>
   </div><p class="fine" style="margin-top:18px">Phím tắt: Space tạm dừng, 1–4 đổi tốc độ, N mở Task mới.</p><p class="tagline" style="margin-top:22px">INFI TECH · Infinite Solutions • Smarter Future</p>`;
 }
 function renderPanel() {
@@ -1587,7 +1587,7 @@ function runDemo() {
   resetWorld(); S.tplCursor = 3; [0, 1, 2].forEach(i => addTask(tplFrom(i))); S.paused = false; updateTop(); renderPanel(); }
 function loadSprint() {
   for (let i = 0; i < 5; i++) addTask(tplFrom(S.tplCursor++));
-  toast('Đã nạp sprint: 5 task gửi cho Orion'); S.paused = false; updateTop();
+  toast('Đã nạp sprint: 5 task gửi cho AnhDev 86'); S.paused = false; updateTop();
 }
 $('#b-play').addEventListener('click', togglePause);
 $('#b-speed').addEventListener('click', e => { const b = e.target.closest('[data-speed]'); if (b) setSpeed(+b.dataset.speed); });
@@ -1609,7 +1609,7 @@ $('#f-new').addEventListener('submit', e => {
   e.preventDefault();
   const title = $('#f-title').value.trim(); if (!title) return;
   const t = addTask({ title, desc: $('#f-desc').value.trim() || 'Task tự tạo từ form Task mới.', priority: $('#f-prio').value, cards: GENERIC.cards, findings: GENERIC.findings });
-  e.target.reset(); modal.hidden = true; S.paused = false; selectTask(t.id); updateTop(); toast(`Đã gửi ${t.id} cho Orion`);
+  e.target.reset(); modal.hidden = true; S.paused = false; selectTask(t.id); updateTop(); toast(`Đã gửi ${t.id} cho AnhDev 86`);
 });
 addEventListener('keydown', e => {
   if (e.target.closest('input,textarea,select')) { if (e.key === 'Escape') modal.hidden = true; return; }
@@ -1644,6 +1644,7 @@ window.setWidget = setWidget;
 window.appState = st => {
   if (!st) return;
   if ('pinned' in st) $('#b-pin').classList.toggle('on', !!st.pinned);
+  if ('autoSend' in st) { CHAT.autoSend = !!st.autoSend; chatHint(); }
   if ('widget' in st && !!st.widget !== WIDGET.on) setWidget(!!st.widget);
 };
 if (APP) { $('#b-pin').hidden = false; $('#b-widget').hidden = false; }
@@ -2018,7 +2019,12 @@ function renderStats() {
 const CHAT = { sel: 'auto', key: '', pending: [] };
 try { const st = JSON.parse(localStorage.getItem('aw-chat') || '{}'); if (st.sel) CHAT.sel = st.sel; if (st.draft) $('#c-text').value = st.draft; } catch (e) {}
 function saveChat() { try { localStorage.setItem('aw-chat', JSON.stringify({ sel: CHAT.sel, draft: $('#c-text').value })); } catch (e) {} }
-$('#c-hint').textContent = APP ? 'Bấm Giao việc: tin được chép và Claude bật lên. Nhấn ⌘V rồi Enter.' : 'Tin được chép vào bộ nhớ tạm. Mở Claude Code rồi dán (⌘V / Ctrl+V) và Enter.';
+CHAT.autoSend = true;
+function chatHint() {
+  $('#c-hint').textContent = APP && CHAT.autoSend ? 'Bấm Giao việc: tin được dán thẳng vào Claude và gửi đi.' : APP ? 'Bấm Giao việc: tin được chép và Claude bật lên. Nhấn ⌘V rồi Enter.' : 'Trong trình duyệt chỉ chép được tin: mở Claude Code, dán (⌘V / Ctrl+V) rồi Enter. App Mac thì gửi thẳng.';
+}
+chatHint();
+window.appNotice = msg => { toast(msg); CHAT.notice = msg; CHAT.key = ''; renderChat(true); };
 function md(text) {
   return String(text).split('```').map((p, i) => {
     if (i % 2) { const nl = p.indexOf('\n'); return `<pre><code>${esc((nl >= 0 ? p.slice(nl + 1) : p).replace(/\n$/, ''))}</code></pre>`; }
@@ -2076,7 +2082,8 @@ function renderChat(force) {
     return `<div class="steps">${more > 0 ? `<span class="step">+${more} bước</span>` : ''}${shown.map(x => { const a = S.agents[x.ag]; return `<span class="step ${x.ok ? '' : 'fail'}" title="${esc(x.text)}"><i style="background:${a.def.hex}"></i>${a.def.name} · ${esc(x.text)}</span>`; }).join('')}</div>`;
   });
   if (t) html.push(`<div class="typing"><i></i>${t.waiting ? 'Claude đang chờ bạn duyệt trong Claude Code' : `${S.agents[t.target].def.name} đang làm: ${esc(liveStatus(S.agents[t.target], t))}`}</div>`);
-  CHAT.pending.forEach(p => html.push(`<div class="bub user pending" title="Đã chép, chờ bạn dán vào Claude Code">${esc(p.text)}</div>`));
+  CHAT.pending.forEach(p => html.push(`<div class="bub user pending" title="${APP && CHAT.autoSend ? 'Đang gửi sang Claude…' : 'Đã chép, chờ bạn dán vào Claude Code'}">${esc(p.text)}</div>`));
+  if (CHAT.notice) html.push(`<div class="cmeta">${esc(CHAT.notice)}</div>`);
   log.innerHTML = html.length ? html.join('') : `<div class="chat-empty"><img src="${EMBLEM}" alt=""><b>Giao việc cho đội agent ngay tại đây</b><span>Bấm Giao việc, nội dung được chép sang Claude Code. Câu trả lời của Claude và từng bước robot làm sẽ hiện ở khung này.</span></div>`;
   if (nearBottom || force) log.scrollTop = log.scrollHeight;
 }
@@ -2091,8 +2098,8 @@ async function chatSend(open) {
   const ok = await copyText(text);
   if (APP && open) appSend('sendToClaude', { text });
   if (!ok && !APP) { toast('Không chép được tự động, hãy chọn chữ rồi ⌘C'); ta.select(); return; }
-  if (open) { CHAT.pending.push({ text, ts: Date.now() }); ta.value = ''; saveChat(); renderChat(true); }
-  toast(open ? (APP ? 'Đã chép. Claude đang mở, nhấn ⌘V rồi Enter' : 'Đã chép. Dán vào Claude Code (⌘V) rồi Enter') : 'Đã chép tin nhắn');
+  if (open) { CHAT.notice = ''; CHAT.pending.push({ text, ts: Date.now() }); ta.value = ''; saveChat(); renderChat(true); }
+  toast(open ? (APP && CHAT.autoSend ? 'Đang giao việc cho Claude…' : APP ? 'Đã chép. Claude đang mở, nhấn ⌘V rồi Enter' : 'Đã chép. Dán vào Claude Code (⌘V) rồi Enter') : 'Đã chép tin nhắn');
 }
 $('#c-form').addEventListener('submit', e => { e.preventDefault(); chatSend(true); });
 $('#c-copy').addEventListener('click', () => chatSend(false));

@@ -6,10 +6,10 @@ Plugin cho Claude Code: một văn phòng 3D nơi sáu robot diễn lại đúng
 
 ## Có gì
 
-- **Robot làm theo việc thật.** Mỗi yêu cầu bạn gửi Claude là một task. Đọc/tìm file → Iris, sửa file và chạy lệnh → Kai, chạy test → Quinn, lập kế hoạch → Piper, giao subagent → Orion, xong lượt → Rex review rồi Orion chốt.
+- **Robot làm theo việc thật.** Mỗi yêu cầu bạn gửi Claude là một task. Đọc/tìm file → Hà, sửa file và chạy lệnh → Tuấn, chạy test → Linh, lập kế hoạch → Lan, giao subagent → AnhDev 86 (điều phối), xong lượt → Khoa review rồi AnhDev 86 chốt.
 - **Mỗi phiên một phòng riêng.** Tối đa 4 phiên Claude Code cùng hiện, mỗi phòng có tên dự án, trạng thái và các hành động mới nhất.
 - **Thống kê:** số yêu cầu, hành động, tỉ lệ lỗi, file sửa nhiều nhất, thời gian Claude làm việc, theo giờ hoặc 7 ngày.
-- **Khung chat:** soạn tin ngay trong trang, bấm Giao việc để chép sang Claude Code (dán rồi Enter). Cuộc trò chuyện, từng bước robot làm và câu trả lời cuối của Claude hiện lại trong khung chat.
+- **Khung chat:** soạn tin ngay trong trang, bấm Giao việc để chép sang Claude Code rồi dán và Enter (app Mac tự dán và gửi luôn). Cuộc trò chuyện, từng bước robot làm và câu trả lời cuối của Claude hiện lại trong khung chat.
 - **Thông báo** khi Claude xong việc hoặc đang chờ bạn duyệt (cần cho phép thông báo trong trình duyệt).
 - Hiệu ứng ánh sáng, sàn phản chiếu, camera tự động, giao diện tiếng Việt.
 
