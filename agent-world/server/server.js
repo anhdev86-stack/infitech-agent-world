@@ -158,6 +158,13 @@ const server = http.createServer((req, res) => {
   }
   res.writeHead(404); res.end();
 });
+// When the page file is replaced (an update), tell open viewers to reload.
+let pageStamp = 0;
+try { pageStamp = fs.statSync(PAGE).mtimeMs; } catch (e) { /* no page yet */ }
+setInterval(() => {
+  let m = 0; try { m = fs.statSync(PAGE).mtimeMs; } catch (e) { return; }
+  if (m !== pageStamp) { pageStamp = m; for (const res of clients) res.write('event: reload\ndata: {}\n\n'); }
+}, 2000).unref();
 server.on('error', e => {
   if (e.code === 'EADDRINUSE') { console.error(`Port ${PORT} is already in use; another INFI TECH Agent World server is probably running.`); process.exit(0); }
   throw e;

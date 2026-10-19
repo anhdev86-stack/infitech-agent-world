@@ -1004,6 +1004,7 @@ function liveConnect() {
     enterLive(); evs.forEach(ev => ingest(ev, true)); panel._last = null;
   });
   es.onmessage = e => { try { ingest(JSON.parse(e.data), false); } catch (x) {} };
+  es.addEventListener('reload', () => setTimeout(() => location.reload(), 400));
   es.onopen = () => { LIVE.connected = true; };
   es.onerror = () => { LIVE.connected = false; };
 }

@@ -7,7 +7,7 @@
       "name": "agent-world",
       "source": "./agent-world",
       "description": "Live 3D office that shows what Claude Code is doing, with session rooms, stats and notifications.",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "category": "productivity"
     }
   ]
